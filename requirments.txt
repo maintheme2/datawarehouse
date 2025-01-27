@@ -1,0 +1,8 @@
+dbt-core
+dbt-postgres
+Flask_AppBuilder
+nltk
+pandas
+psycopg2_binary
+Requests
+SQLAlchemy
