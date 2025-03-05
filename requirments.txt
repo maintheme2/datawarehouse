@@ -6,3 +6,4 @@ pandas
 psycopg2_binary
 Requests
 SQLAlchemy
+faker
