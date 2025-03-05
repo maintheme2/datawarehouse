@@ -1,9 +1,10 @@
 import random
+import pandas as pd
 from faker import Faker
 
 fake = Faker()
 
-def generate_data():
+def generate_data() -> None:
     customers_data = {
         "customer_id": [],
         "name": [],
@@ -44,5 +45,11 @@ def generate_data():
         orders_data["order_date"].append(fake.date_time())
         orders_data["customer_id"].append(fake.random_choice(customers_data["customer_id"]))
         orders_data["product_id"].append(fake.random_choice(products_data["product_id"]))
-        
-    return customers_data, orders_data, products_data
+    
+    customers_df = pd.DataFrame(customers_data)
+    products_df = pd.DataFrame(products_data)
+    orders_df = pd.DataFrame(orders_data)
+
+    customers_df.to_csv("datawarehouse/data/customers.csv", index=False)
+    products_df.to_csv("datawarehouse/data/products.csv", index=False)
+    orders_df.to_csv("datawarehouse/data/orders.csv", index=False)
