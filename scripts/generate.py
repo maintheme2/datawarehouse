@@ -43,13 +43,18 @@ def generate_data() -> None:
 
         orders_data["order_id"].append(fake.random_int(min=100, max=10**10))
         orders_data["order_date"].append(fake.date_time())
-        orders_data["customer_id"].append(fake.random_choice(customers_data["customer_id"]))
-        orders_data["product_id"].append(fake.random_choice(products_data["product_id"]))
+        orders_data["customer_id"].append(fake.random_choices(customers_data["customer_id"])[0])
+        orders_data["product_id"].append(fake.random_choices(products_data["product_id"])[0])
     
     customers_df = pd.DataFrame(customers_data)
     products_df = pd.DataFrame(products_data)
     orders_df = pd.DataFrame(orders_data)
 
-    customers_df.to_csv("datawarehouse/data/customers.csv", index=False)
-    products_df.to_csv("datawarehouse/data/products.csv", index=False)
-    orders_df.to_csv("datawarehouse/data/orders.csv", index=False)
+    customers_df.to_csv("../data/generated/customers.csv", index=False)
+    products_df.to_csv("../data/generated/products.csv", index=False)
+    orders_df.to_csv("../data/generated/orders.csv", index=False)
+
+
+
+if __name__ == "__main__":
+    generate_data()
