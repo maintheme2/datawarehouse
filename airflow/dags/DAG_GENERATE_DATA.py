@@ -4,7 +4,7 @@ from airflow.models import DAG
 from airflow.operators.python import PythonOperator
 from datetime import datetime
 
-sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
 from scripts.generate import generate_data
 
