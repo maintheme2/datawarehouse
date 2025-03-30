@@ -6,7 +6,7 @@ from datetime import datetime
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__)))))
 
-from scripts.generate import generate_data
+from scripts.python.generate_stg_data import generate_data
 
 with DAG (
     dag_id='DAG_GENERATE_DATA',
