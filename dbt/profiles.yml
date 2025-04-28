@@ -1,0 +1,12 @@
+dwh_models:
+  outputs:
+    dev:
+      type: postgres
+      host: host.docker.internal
+      port: 5432
+      dbname: store_db1
+      schema: store_dwh
+      user: tech_dbt
+      pass: tech_dbt
+      threads: 5
+  target: dev
