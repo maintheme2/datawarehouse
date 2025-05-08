@@ -11,7 +11,7 @@ from scripts.python.generate_stg_data import generate_data
 with DAG (
     dag_id='DAG_GENERATE_DATA',
     description='generate hourly data',
-    schedule_interval='@hourly',
+    schedule_interval='@daily',
     start_date=datetime(2025, 2, 28),
     catchup=False
 ) as dag:

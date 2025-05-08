@@ -1,7 +1,6 @@
 from airflow.models import DAG
 from airflow.operators.postgres_operator import PostgresOperator
 from airflow.operators.python_operator import PythonOperator
-from airflow.operators.bash_operator import BashOperator
 from airflow.utils.dates import days_ago
 from datetime import datetime
 
@@ -13,8 +12,8 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspa
 from scripts.python.generate_inserts import generate_inserts
 
 with DAG (
-    dag_id='DAG_STORE_STG__ORDERS',
-    description='Load data into staging orders table',
+    dag_id='DAG_STORE_STG__CUSTOMERS',
+    description='Load data into staging customers table',
     schedule_interval='@daily',
     start_date=datetime(2025, 2, 23),
     template_searchpath='/opt/scripts/sql',
@@ -25,7 +24,7 @@ with DAG (
         task_id='truncate_target_table',
         postgres_conn_id='postgres_store_db1',
         sql="""
-            truncate table store_stg.stg_orders;
+            truncate table store_stg.stg_customers;
             """,
         dag=dag
     )
@@ -35,8 +34,8 @@ with DAG (
         python_callable=generate_inserts,
         op_kwargs={
             'target_schema_name': 'store_stg',
-            'target_table_name': 'stg_orders',
-            'file_name': 'orders.csv'
+            'target_table_name': 'stg_customers',
+            'file_name': 'customers.csv'
         },
         dag=dag
     )
@@ -44,7 +43,7 @@ with DAG (
     load_data = PostgresOperator(
         task_id='load_data',
         postgres_conn_id='postgres_store_db1',
-        sql='insert_store_stg__stg_orders.sql',
+        sql='insert_store_stg__stg_customers.sql',
         dag=dag
     )
 
