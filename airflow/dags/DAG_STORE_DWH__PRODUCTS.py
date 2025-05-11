@@ -1,5 +1,6 @@
 from airflow.models import DAG
 from airflow.operators.bash import BashOperator
+from airflow.sensors.external_task_sensor import ExternalTaskSensor
 from datetime import datetime
 
 
@@ -16,4 +17,12 @@ with DAG (
         bash_command = 'dbt run --project-dir /opt/dbt/dwh_models --profiles-dir /opt/dbt/ --select products'
     )
 
-    dbt_products
+    wait_stg_products = ExternalTaskSensor(
+        task_id='wait_stg_products',
+        external_dag_id='DAG_STORE_STG__PRODUCTS',
+        external_task_id='load_data',
+        poke_interval=5*60,
+        timeout=86400+100
+    )
+
+    wait_stg_products >> dbt_products

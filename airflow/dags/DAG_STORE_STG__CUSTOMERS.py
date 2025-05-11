@@ -1,6 +1,7 @@
 from airflow.models import DAG
 from airflow.operators.postgres_operator import PostgresOperator
 from airflow.operators.python_operator import PythonOperator
+from airflow.sensors.external_task_sensor import ExternalTaskSensor
 from airflow.utils.dates import days_ago
 from datetime import datetime
 
@@ -47,4 +48,12 @@ with DAG (
         dag=dag
     )
 
-    generate_inserts >> truncate_table >> load_data
+    wait_data_generation_customers = ExternalTaskSensor(
+        task_id='wait_data_generation_customers',
+        external_dag_id='DAG_GENERATE_DATA',
+        external_task_id='generate_data',
+        poke_interval=5*60,
+        timeout=86400+100
+    )
+
+    wait_data_generation_customers >> generate_inserts >> truncate_table >> load_data
