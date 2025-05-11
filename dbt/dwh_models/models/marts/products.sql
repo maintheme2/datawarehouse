@@ -4,9 +4,8 @@
     )
 }}
 
-select stg.order_id,
-       stg.order_date,
-       stg.customer_id,
-       stg.product_id,
+select stg.product_id,
+       stg.category,
+       stg.price,
        current_timestamp as as_of_day
 from store_stg.stg_products stg
