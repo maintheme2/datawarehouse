@@ -22,7 +22,8 @@ with DAG (
         external_dag_id='DAG_STORE_STG__PRODUCTS',
         external_task_id='load_data',
         poke_interval=5*60,
-        timeout=86400+100
+        timeout=86400+100,
+        mode='reschedule'
     )
 
     wait_stg_products >> dbt_products

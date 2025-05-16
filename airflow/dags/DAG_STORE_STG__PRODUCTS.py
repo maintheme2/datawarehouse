@@ -53,7 +53,8 @@ with DAG (
         external_dag_id='DAG_GENERATE_DATA',
         external_task_id='generate_data',
         poke_interval=5*60,
-        timeout=86400+100
+        timeout=86400+100,
+        mode='reschedule'
     )
 
     wait_data_generation_products >> generate_inserts >> truncate_table >> load_data
