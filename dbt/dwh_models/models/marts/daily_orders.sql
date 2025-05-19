@@ -25,4 +25,4 @@ LEFT JOIN get_prices USING (product_id)
     WHERE as_of_day > (SELECT MAX(as_of_day) FROM {{ this }})
 {% endif %}
 
-GROUP BY order_date
+GROUP BY order_date::date
