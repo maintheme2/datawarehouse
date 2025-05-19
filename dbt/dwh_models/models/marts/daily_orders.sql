@@ -13,7 +13,7 @@ with get_prices as (
   FROM {{ ref('products') }}
 )
 SELECT
-  order_date,
+  order_date::date AS order_date,
   COUNT(DISTINCT order_id) AS total_orders,
   COUNT(DISTINCT customer_id) AS unique_customers,
   SUM(price) AS total_revenue,
