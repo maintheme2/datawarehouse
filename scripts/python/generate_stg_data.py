@@ -37,22 +37,28 @@ def generate_data(run_id, **context) -> None:
 
     num_rows = 10**5 + fake.random_int(min=1000, max=12000) - fake.random_int(min=1000, max=12000)
     for i in range(1, num_rows):
-        customers_data["customer_id"].append(fake.random_int(min=100, max=10**10))
-        customers_data["name"].append(fake.name())
-        customers_data["address"].append(fake.address())
-        customers_data["phone"].append(fake.phone_number())
-        customers_data["email"].append(fake.email())
-        customers_data["gender"].append(fake.random_element(elements=("male", "female")))
-        customers_data["date_of_birth"].append(fake.date_of_birth())
+        customer_id = fake.random_int(min=100, max=10**5)
+        if customer_id not in customers_data["customer_id"]:
+            customers_data["customer_id"].append(customer_id)
+            customers_data["name"].append(fake.name())
+            customers_data["address"].append(fake.address())
+            customers_data["phone"].append(fake.phone_number())
+            customers_data["email"].append(fake.email())
+            customers_data["gender"].append(fake.random_element(elements=("male", "female")))
+            customers_data["date_of_birth"].append(fake.date_of_birth())
 
-        products_data["product_id"].append(fake.random_int(min=1, max=1000))
-        products_data["category"].append(fake.random_element(elements=("Electronics", "Clothing", "Books", "Home", "Sports")))
-        products_data["price"].append(fake.random_int(min=500, max=10000))
-
-        orders_data["order_id"].append(fake.random_int(min=100, max=10**10))
-        orders_data["order_date"].append(fake.date_time())
-        orders_data["customer_id"].append(fake.random_choices(customers_data["customer_id"])[0])
-        orders_data["product_id"].append(fake.random_choices(products_data["product_id"])[0])
+        product_id = fake.random_int(min=1, max=1000)
+        if product_id not in products_data["product_id"]: 
+            products_data["product_id"].append(product_id)
+            products_data["category"].append(fake.random_element(elements=("Electronics", "Clothing", "Books", "Home", "Sports")))
+            products_data["price"].append(fake.random_int(min=500, max=10000))
+        
+        order_id = fake.random_int(min=100, max=10**7)
+        if order_id not in orders_data["order_id"]:
+            orders_data["order_id"].append(order_id)
+            orders_data["order_date"].append(fake.date_time())
+            orders_data["customer_id"].append(fake.random_choices(customers_data["customer_id"])[0])
+            orders_data["product_id"].append(fake.random_choices(products_data["product_id"])[0])
 
         if i % 1000 == 0 or i == num_rows-1:
             if i == num_rows-1: f.write(f"\n{datetime.now()}: generation finished, rows in total: {i} \n")
