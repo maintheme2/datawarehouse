@@ -19,10 +19,5 @@ SELECT
   SUM(price) AS total_revenue,
   current_timestamp as as_of_day
 FROM {{ ref('orders') }}
-LEFT JOIN get_prices USING (product_id)
-
-{% if is_incremental() %}
-    WHERE as_of_day > (SELECT MAX(as_of_day) FROM {{ this }})
-{% endif %}
-
+JOIN get_prices USING (product_id)
 GROUP BY order_date::date
